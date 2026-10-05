@@ -30,7 +30,7 @@ contracts.
 | `index.html` | Homepage — "Construction and Engineering Services", both tracks, MEPFS disciplines, comparison table, process, why Axia |
 | `construction.html` | Long-duration MEPFS projects, full discipline breakdown, 8-stage delivery process, handover deliverables, FAQ |
 | `engineering.html` | Repairs and maintenance, coverage by discipline, call-out process, service contracts, FAQ |
-| `about.html` | Company positioning, operating principles, who we work with |
+| `about.html` | Company positioning, owner profile and licences, client list, operating principles, who we work with |
 | `contact.html` | Enquiry form, contact details, what happens next |
 
 ## Structure
@@ -76,6 +76,10 @@ the `data-mailto` attribute on the `<form>` in `contact.html`.
 
 ## Customising
 
+- **Owner and clients** — the owner section (`#leadership`) and client list
+  (`#clients`) live on `about.html`; the homepage repeats the client names as a
+  compact strip. Both lists are plain HTML `<li>` items, so adding a client is
+  one line in each place. The portrait is `assets/img/cris-john-will-lim.jpg`.
 - **Logo** — `assets/img/logo.png` is the ἀξία wordmark with its background
   removed, exported at 604×220 (2× the largest size it is shown at). It appears
   in the header and footer of every page via the `.brand` block; the browser-tab
@@ -92,8 +96,8 @@ the `data-mailto` attribute on the `<form>` in `contact.html`.
   footer of all five pages and in `contact.html`. The phone number is written
   locally as `0926-668-8988` but linked as `tel:+639266688988`, so it dials
   correctly from abroad as well as at home; change both if the number changes.
-  A street address is not yet included; add it to the footer block and the
-  contact page's `.info-list` when available.
+  The street address and second number come from the company profile and
+  appear in the same two places.
 - **Navigation** — the header and footer are duplicated per page (there is no
   templating). Editing one means editing all five.
 

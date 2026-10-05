@@ -88,10 +88,12 @@ the `data-mailto` attribute on the `<form>` in `contact.html`.
   used for text on light backgrounds; it meets WCAG AA at 5.09:1, whereas the
   brighter `--amber-500` does not and is reserved for dark backgrounds and
   decorative elements.
-- **Contact details** — email, hours and the call-out note appear in the footer
-  of all five pages and in `contact.html`. A phone number and street address are
-  not yet included; add them to the footer block and the contact page's
-  `.info-list` when available.
+- **Contact details** — email, phone, hours and the call-out note appear in the
+  footer of all five pages and in `contact.html`. The phone number is written
+  locally as `0926-668-8988` but linked as `tel:+639266688988`, so it dials
+  correctly from abroad as well as at home; change both if the number changes.
+  A street address is not yet included; add it to the footer block and the
+  contact page's `.info-list` when available.
 - **Navigation** — the header and footer are duplicated per page (there is no
   templating). Editing one means editing all five.
 

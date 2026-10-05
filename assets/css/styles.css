@@ -141,18 +141,17 @@ hr { border: 0; border-top: 1px solid var(--slate-200); margin: 2.5rem 0; }
   display: flex; align-items: center; justify-content: space-between;
   gap: 1.5rem; min-height: var(--header-h);
 }
-.brand { display: flex; align-items: center; gap: .7rem; color: var(--white); }
+/* Brand lockup: the ἀξία wordmark image with "Engineering Services" set
+   beneath it. The image carries its own amber, so it sits on dark surfaces
+   as supplied; width/height attributes in the markup reserve its box. */
+.brand { display: inline-flex; flex-direction: column; align-items: flex-start; gap: .22rem; color: var(--white); }
 .brand:hover { color: var(--white); }
-.brand__mark { width: 40px; height: 40px; flex: 0 0 auto; }
-.brand__text { display: flex; flex-direction: column; line-height: 1.05; }
-.brand__name {
-  font-family: var(--font-head); font-weight: 700; font-size: 1.42rem;
-  letter-spacing: .07em; text-transform: uppercase; color: var(--white);
-}
+.brand__logo { height: 44px; width: auto; display: block; }
 .brand__sub {
-  font-size: .64rem; letter-spacing: .22em; text-transform: uppercase;
-  color: var(--amber-500); font-weight: 600;
+  font-size: .58rem; letter-spacing: .19em; text-transform: uppercase;
+  color: var(--amber-500); font-weight: 600; padding-left: 3px; line-height: 1;
 }
+@media (max-width: 420px) { .brand__logo { height: 36px; } .brand__sub { font-size: .5rem; } }
 
 .nav { display: flex; align-items: center; gap: .3rem; }
 .nav a {
@@ -493,7 +492,8 @@ hr { border: 0; border-top: 1px solid var(--slate-200); margin: 2.5rem 0; }
 .site-footer li { margin-bottom: .5rem; }
 .site-footer a { color: #93aec7; }
 .site-footer a:hover { color: var(--amber-500); }
-.site-footer .brand { margin-bottom: .9rem; }
+.site-footer .brand { margin-bottom: 1rem; }
+.site-footer .brand__logo { height: 40px; }
 .footer-bottom {
   margin-top: 2.6rem; padding-top: 1.3rem;
   border-top: 1px solid rgba(255,255,255,.1);

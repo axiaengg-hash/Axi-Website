@@ -41,7 +41,7 @@ contracts.
 ├── assets/
 │   ├── css/styles.css     all styling, design tokens at the top in :root
 │   ├── js/main.js         nav, scroll reveal, anchor handling, enquiry form
-│   └── img/favicon.svg
+│   └── img/               logo.png (ἀξία wordmark), favicon.png, apple-touch-icon.png, icon-512.png
 ├── robots.txt, sitemap.xml
 └── .nojekyll              so GitHub Pages serves the files as-is
 ```
@@ -76,6 +76,13 @@ the `data-mailto` attribute on the `<form>` in `contact.html`.
 
 ## Customising
 
+- **Logo** — `assets/img/logo.png` is the ἀξία wordmark with its background
+  removed, exported at 604×220 (2× the largest size it is shown at). It appears
+  in the header and footer of every page via the `.brand` block; the browser-tab
+  and home-screen icons in the same folder are cut from its first glyph on a
+  navy tile. To replace the logo, overwrite `logo.png` with a transparent PNG or
+  SVG of similar proportions and update the `width`/`height` attributes on the
+  `<img>` tags.
 - **Colours, fonts, spacing** — design tokens are defined in `:root` at the top
   of `assets/css/styles.css`. `--amber-ink` is a deliberately darkened amber
   used for text on light backgrounds; it meets WCAG AA at 5.09:1, whereas the

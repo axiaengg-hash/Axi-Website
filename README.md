@@ -30,7 +30,8 @@ contracts.
 | `index.html` | Homepage — "Construction and Engineering Services", both tracks, MEPFS disciplines, comparison table, process, why Axia |
 | `construction.html` | Long-duration MEPFS projects, full discipline breakdown, 8-stage delivery process, handover deliverables, FAQ |
 | `engineering.html` | Repairs and maintenance, coverage by discipline, call-out process, service contracts, FAQ |
-| `about.html` | Company positioning, owner profile and licences, client list, operating principles, who we work with |
+| `projects.html` | Notable projects grouped by discipline — fire protection, mechanical, structured cabling & CCTV, fit-out/plumbing, civil — with client, site and date |
+| `about.html` | Company description, mission, owner profile and licences, client list, the six-point philosophy, who we work with |
 | `contact.html` | Enquiry form, contact details, what happens next |
 
 ## Structure
@@ -41,7 +42,8 @@ contracts.
 ├── assets/
 │   ├── css/styles.css     all styling, design tokens at the top in :root
 │   ├── js/main.js         nav, scroll reveal, anchor handling, enquiry form
-│   └── img/               logo.png (ἀξία wordmark), favicon.png, apple-touch-icon.png, icon-512.png
+│   └── img/               logo.png (ἀξία wordmark), favicon.png, apple-touch-icon.png, icon-512.png,
+│       └── projects/      29 project photos extracted from the company profile, named by project
 ├── robots.txt, sitemap.xml
 └── .nojekyll              so GitHub Pages serves the files as-is
 ```
@@ -76,6 +78,13 @@ the `data-mailto` attribute on the `<form>` in `contact.html`.
 
 ## Customising
 
+- **Projects** — each project on `projects.html` is a `.project` article inside a
+  `.project-group`; a `.project--featured` one spans the row. Photos live in
+  `assets/img/projects/` at up to 1200px wide and load lazily. To add a project,
+  drop the photo there and copy one of the existing articles.
+- **Services beyond MEPFS** — civil & building works, CCTV, and BFP/DOLE/PEZA
+  permitting are described on `construction.html` (`#civil`, `#cctv`, `#permits`)
+  along with the brands installed (`#brands`).
 - **Owner and clients** — the owner section (`#leadership`) and client list
   (`#clients`) live on `about.html`; the homepage repeats the client names as a
   compact strip. Both lists are plain HTML `<li>` items, so adding a client is

@@ -78,10 +78,20 @@ the `data-mailto` attribute on the `<form>` in `contact.html`.
 
 ## Customising
 
+- **Photo banners** — the homepage hero uses `assets/img/hero.jpg`; each inner
+  page's banner photo is set by one `--banner` line per page in the *UI upgrade*
+  block at the end of `styles.css` (`.page-hero--construction` etc.). Swap the
+  file named there to change a banner.
+- **Client bar** — the scrolling "Trusted by" strip under the homepage hero
+  lists each client twice (the second copy is `aria-hidden`) so the loop is
+  seamless; add a new client to both copies. It stops scrolling for visitors
+  who prefer reduced motion.
 - **Projects** — each project on `projects.html` is a `.project` article inside a
   `.project-group`; a `.project--featured` one spans the row. Photos live in
   `assets/img/projects/` at up to 1200px wide and load lazily. To add a project,
-  drop the photo there and copy one of the existing articles.
+  drop the photo there and copy one of the existing articles. Every project
+  photo opens in a full-screen viewer when clicked (arrow keys move between
+  photos, Esc closes); that needs no extra markup.
 - **Services beyond MEPFS** — civil & building works, CCTV, and BFP/DOLE/PEZA
   permitting are described on `construction.html` (`#civil`, `#cctv`, `#permits`)
   along with the brands installed (`#brands`).

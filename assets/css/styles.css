@@ -925,3 +925,12 @@ a.topbar__item:hover { color: var(--amber-500); }
     linear-gradient(160deg, rgba(11,27,43,.94) 0%, rgba(11,27,43,.84) 55%, rgba(16,38,60,.72) 100%),
     url("../img/projects/kitchen-complete.jpg") center 65% / cover no-repeat;
 }
+
+/* A project card two columns wide, for a strong photo pair. The media keeps the
+   row height of its neighbours (8:3 across two columns ≈ 4:3 per column). */
+.project--wide { grid-column: span 2; }
+.project--wide .project__media { aspect-ratio: 8 / 3; }
+@media (max-width: 600px) {
+  .project--wide { grid-column: auto; }
+  .project--wide .project__media { aspect-ratio: 4 / 3; }
+}

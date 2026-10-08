@@ -911,3 +911,10 @@ a.topbar__item:hover { color: var(--amber-500); }
 .kitchen-feature__icon svg { width: 23px; height: 23px; }
 @media (max-width: 880px) { .kitchen-feature { grid-template-columns: 1fr; } }
 @media (max-width: 520px) { .kitchen-feature__list { grid-template-columns: 1fr; } }
+
+/* "Something else?" card that closes an uneven grid */
+.card--ask { display: block; border-style: dashed; border-color: var(--slate-300); background: var(--slate-50); color: inherit; }
+.card--ask:hover { color: inherit; border-color: var(--amber-500); }
+.card--ask .card__icon { background: var(--amber-100); color: var(--amber-ink); }
+.card--ask__link { display: inline-block; margin-top: .8rem; font-weight: 700; font-size: .92rem; color: var(--navy-700); }
+.card--ask__link::after { content: " \2192"; }

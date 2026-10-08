@@ -15,9 +15,11 @@ homepage presents side by side:
 | Work | New MEPFS installation and full system build-out | Repairs, maintenance and minor works |
 | Page | `construction.html` | `engineering.html` |
 
-**Construction** covers the full MEPFS scope — **M**echanical, **E**lectrical,
-**P**lumbing, **F**ire protection, **S**anitary — with structured cabling and
-fire protection highlighted as the two headline installations.
+**Construction** covers MEPFS works — mechanical, electrical, plumbing and fire
+protection — plus complete kitchen systems, structured cabling, CCTV and civil
+works, with structured cabling and fire protection highlighted as the headline
+installations. Sanitary works, water treatment and HVAC are deliberately not
+offered and should not be reintroduced in copy.
 
 **Engineering Services** covers short-duration work: reactive repairs and
 emergency call-outs, planned preventive maintenance, and annual service
@@ -112,13 +114,13 @@ the `data-mailto` attribute on the `<form>` in `contact.html`.
   brighter `--amber-500` does not and is reserved for dark backgrounds and
   decorative elements.
 - **Contact details** — email, phone, hours and the call-out note appear in the
-  footer of all five pages and in `contact.html`. The phone number is written
+  footer of all six pages and in `contact.html`. The phone number is written
   locally as `0926-668-8988` but linked as `tel:+639266688988`, so it dials
   correctly from abroad as well as at home; change both if the number changes.
   The street address and second number come from the company profile and
   appear in the same two places.
 - **Navigation** — the header and footer are duplicated per page (there is no
-  templating). Editing one means editing all five.
+  templating). Editing one means editing all six.
 
 ## Accessibility and browser notes
 

@@ -94,6 +94,11 @@ the `data-mailto` attribute on the `<form>` in `contact.html`.
   drop the photo there and copy one of the existing articles. Every project
   photo opens in a full-screen viewer when clicked (arrow keys move between
   photos, Esc closes); that needs no extra markup.
+- **Kitchen systems** — the complete kitchen requirements service lives at
+  `construction.html#kitchen` (four service cards plus a photo gallery) and as
+  the Kitchen Systems group on `projects.html#kitchen`; the same five
+  `assets/img/projects/kitchen-*.jpg` photos feed both, and `kitchen-complete.jpg`
+  is also the background of the homepage kitchen panel.
 - **Services beyond MEPFS** — civil & building works, CCTV, and BFP/DOLE/PEZA
   permitting are described on `construction.html` (`#civil`, `#cctv`, `#permits`)
   along with the brands installed (`#brands`).

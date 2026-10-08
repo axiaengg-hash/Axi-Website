@@ -918,3 +918,10 @@ a.topbar__item:hover { color: var(--amber-500); }
 .card--ask .card__icon { background: var(--amber-100); color: var(--amber-ink); }
 .card--ask__link { display: inline-block; margin-top: .8rem; font-weight: 700; font-size: .92rem; color: var(--navy-700); }
 .card--ask__link::after { content: " \2192"; }
+
+/* Homepage kitchen panel: the finished-kitchen photo under the navy overlay */
+.kitchen-feature__intro {
+  background:
+    linear-gradient(160deg, rgba(11,27,43,.94) 0%, rgba(11,27,43,.84) 55%, rgba(16,38,60,.72) 100%),
+    url("../img/projects/kitchen-complete.jpg") center 65% / cover no-repeat;
+}

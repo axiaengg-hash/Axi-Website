@@ -934,3 +934,16 @@ a.topbar__item:hover { color: var(--amber-500); }
   .project--wide { grid-column: auto; }
   .project--wide .project__media { aspect-ratio: 4 / 3; }
 }
+
+/* Full-width service card closing the Core installations grid: intro on the
+   left, scope list in two columns on the right. */
+.service-card--wide { grid-column: 1 / -1; }
+.service-card__link { display: inline-block; margin-top: .3rem; font-weight: 700; font-size: .95rem; color: var(--navy-700); }
+.service-card__link::after { content: " \2193"; }
+.service-card__link:hover { color: var(--amber-ink); }
+@media (min-width: 861px) {
+  .service-card--wide { display: grid; grid-template-columns: 1fr 1.25fr; column-gap: 2.8rem; align-items: center; }
+  .service-card--wide ul { columns: 2; column-gap: 2rem; margin: 0; }
+  .service-card--wide ul li { break-inside: avoid; }
+}
+@media (max-width: 860px) { .service-card--wide ul { margin-bottom: 0; } .service-card--wide .service-card__link { margin-bottom: 1.2rem; } }

@@ -127,6 +127,20 @@ the `data-mailto` attribute on the `<form>` in `contact.html`.
 - **Navigation** — the header and footer are duplicated per page (there is no
   templating). Editing one means editing all six.
 
+## Design resources
+
+- **Taste Skill** — vendored as a Claude Code skill in `.claude/skills/taste-skill/`
+  (from [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill), MIT).
+  Claude loads it automatically when designing or restyling pages.
+- **React Bits** — [DavidHDev/react-bits](https://github.com/DavidHDev/react-bits)
+  ([reactbits.dev](https://reactbits.dev)) is a library of animated React
+  components, used here as a reference only, not a dependency. This site has no
+  React, so to use an effect, read its source (each component lives under
+  `src/content/` in that repo, or on its Code tab at reactbits.dev) and port it to
+  plain JavaScript in `assets/js/main.js` and CSS in `assets/css/styles.css`.
+  Keep ported effects behind `prefers-reduced-motion`. Don't add the repo as a
+  submodule: GitHub Pages would publish its ~400 MB with the site.
+
 ## Accessibility and browser notes
 
 - Skip link, single `<h1>` per page, no heading-level jumps, labelled form

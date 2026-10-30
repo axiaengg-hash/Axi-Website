@@ -6,25 +6,26 @@ and JavaScript. No build step, no framework, no package install — open
 
 ## What the site sells
 
-The site covers three services, all aimed at **warehouses and distribution centres**:
+Four services:
 
-| Service | Covers |
-|---|---|
-| **Electromechanical** | Panelboards, feeders and cable tray, high-bay and emergency lighting, dock shutters and charging bays, generator/ATS, exhaust and ventilation, chilled water, cooling towers and compressed air |
-| **CCTV** | IP cameras at docks, aisles, gates and perimeter, mounting at height, PoE switching, NVR and monitoring, servicing |
-| **Structured cabling** | Cat6/Cat6A, fibre backbone, access-point drops for scanners, racks and patching, labelling and tested links |
+| Service | For | Covers |
+|---|---|---|
+| **Electromechanical** | Manufacturing plants | Installation of production machines and equipment; compressed air (compressor rooms, receivers, headers); cooling water (cooling towers, pump stations, chilled water loops); power to machines |
+| **CCTV and structured cabling** | Warehouses | IP cameras, NVR and monitoring; Cat6 and fibre; Wi-Fi for scanners; racks, patching, labelling and tested links |
+| **Fire protection and FDAS** | Plants and buildings | Sprinklers, fire pumps, hydrants and hose reels; detection and alarm; BFP, DOLE and PEZA permit support |
+| **Complete kitchen requirements** | Commercial and canteen kitchens | Hood and exhaust, LPG gas line, gas leak detection, wet-chemical suppression (Lehavot) |
 
-Repairs, planned maintenance and service contracts for all three are offered on
-`services.html#maintenance`. Fire protection, kitchen systems, plumbing and civil
-works are deliberately **not** offered any more and should not be reintroduced in copy.
+Repairs, planned maintenance and service contracts for all four are on
+`services.html#maintenance`. Plumbing and civil works are not offered and should
+not be reintroduced in copy.
 
 ## Pages
 
 | File | Purpose |
 |---|---|
-| `index.html` | Homepage: full-screen hero, the "Inside your warehouse" diagram (pick a system to light it up), recent work, how a job runs, clients, about, contact card |
-| `services.html` | One chapter per service (`#electromechanical`, `#cctv`, `#cabling`), repairs and upkeep (`#maintenance`), FAQ |
-| `projects.html` | Relevant projects only, each with photos and client / site / date / scope; filter buttons by system |
+| `index.html` | Homepage: full-screen hero, the "Across your site" diagram (pick a service to light it up), recent work, how a job runs, clients, about, contact card |
+| `services.html` | One chapter per service (`#electromechanical`, `#cctv`, `#fire`, `#kitchen`), repairs and upkeep (`#maintenance`), FAQ |
+| `projects.html` | Projects grouped by service, each with photos and client / site / date / scope; filter buttons by service |
 | `about.html` | Why one contractor, the owner and licences (`#leadership`), values, client list (`#clients`) |
 | `contact.html` | Enquiry form, contact details, what happens next |
 | `construction.html`, `engineering.html` | Redirect stubs to `services.html`, kept so old links still work |
@@ -37,10 +38,10 @@ works are deliberately **not** offered any more and should not be reintroduced i
 ├── construction.html, engineering.html   redirects to services.html
 ├── assets/
 │   ├── css/styles.css     all styling, design tokens at the top in :root
-│   ├── js/main.js         nav, reveal on scroll, warehouse diagram tabs, project filter,
+│   ├── js/main.js         nav, reveal on scroll, site diagram tabs, project filter,
 │   │                      photo viewer, enquiry form
 │   └── img/               logo, icons, hero.jpg, owner portrait
-│       └── projects/      project photos (some fire/kitchen/civil photos are no longer used)
+│       └── projects/      project photos (the DKSH office, solar light and civil photos are not used)
 ├── robots.txt, sitemap.xml
 └── .nojekyll              so GitHub Pages serves the files as-is
 ```
@@ -88,12 +89,12 @@ the `data-mailto` attribute on the `<form>` in `contact.html`.
 - **Header and footer** are duplicated in every page (no templating). Editing one
   means editing all five content pages.
 - **Hero photo** is `assets/img/hero.jpg`.
-- **Warehouse diagram** is an inline SVG in `index.html` (`#shed`). Each system's
-  parts sit in a `<g class="sys sys--em|cctv|cab">`; shapes with class `hl`
-  (fill) or `hs` (stroke) turn amber when that system's tab is selected, and
+- **Site diagram** is an inline SVG in `index.html` (`#shed`). Each service's
+  parts sit in a `<g class="sys sys--em|cctv|fire|kitchen">`; shapes with class `hl`
+  (fill) or `hs` (stroke) turn amber when that service's tab is selected, and
   `lbl` text labels appear.
 - **Projects**: each project on `projects.html` is an `<article class="project">`
-  with `data-sys` listing its systems (`em`, `cctv`, `cab`) for the filter. Each
+  with `data-sys` listing its services (`em`, `cctv`, `fire`, `kitchen`) for the filter. Each
   photo `<figure>` carries `style="--r: width/height"` (as a decimal) so the row
   lines up at one height. Clicking a photo opens the full-screen viewer.
 - **Clients** are plain `<li>` items on `index.html` and `about.html`.

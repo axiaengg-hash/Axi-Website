@@ -269,18 +269,23 @@ li { list-style: none; }
 .js .shed[data-active] .sys { opacity: 0.28; }
 .js .shed[data-active="em"] .sys--em,
 .js .shed[data-active="cctv"] .sys--cctv,
-.js .shed[data-active="cab"] .sys--cab { opacity: 1; }
+.js .shed[data-active="fire"] .sys--fire,
+.js .shed[data-active="kitchen"] .sys--kitchen { opacity: 1; }
 .js .shed[data-active="em"] .sys--em .hl,
 .js .shed[data-active="cctv"] .sys--cctv .hl,
-.js .shed[data-active="cab"] .sys--cab .hl { fill: var(--accent); }
+.js .shed[data-active="fire"] .sys--fire .hl,
+.js .shed[data-active="kitchen"] .sys--kitchen .hl { fill: var(--accent); }
 .js .shed[data-active="em"] .sys--em .hs,
 .js .shed[data-active="cctv"] .sys--cctv .hs,
-.js .shed[data-active="cab"] .sys--cab .hs { stroke: var(--accent); }
+.js .shed[data-active="fire"] .sys--fire .hs,
+.js .shed[data-active="kitchen"] .sys--kitchen .hs { stroke: var(--accent); }
 /* labels only name the selected system's parts */
+.sys .lbl { paint-order: stroke; stroke: var(--bg); stroke-width: 4px; stroke-linejoin: round; }
 .js .sys .lbl { opacity: 0; transition: opacity 320ms var(--ease-out); }
 .js .shed[data-active="em"] .sys--em .lbl,
 .js .shed[data-active="cctv"] .sys--cctv .lbl,
-.js .shed[data-active="cab"] .sys--cab .lbl { opacity: 1; }
+.js .shed[data-active="fire"] .sys--fire .lbl,
+.js .shed[data-active="kitchen"] .sys--kitchen .lbl { opacity: 1; }
 .shed .cone { fill-opacity: 1; }
 @media (max-width: 960px) {
   .shed__head, .shed__figure, .shed__panel-wrap { grid-column: 1 / -1; grid-row: auto; }

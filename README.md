@@ -4,51 +4,56 @@ Marketing website for Axia Engineering Services, built as plain static HTML, CSS
 and JavaScript. No build step, no framework, no package install — open
 `index.html` in a browser and it works.
 
-## The two services
+## What the site sells
 
-The site is organised around the company's two service tracks, which the
-homepage presents side by side:
+The site covers three services, all aimed at **warehouses and distribution centres**:
 
-| | **Construction** | **Engineering Services** |
-|---|---|---|
-| Duration | Long — weeks to months | Short — hours to days |
-| Work | New MEPFS installation and full system build-out | Repairs, maintenance and minor works |
-| Page | `construction.html` | `engineering.html` |
+| Service | Covers |
+|---|---|
+| **Electromechanical** | Panelboards, feeders and cable tray, high-bay and emergency lighting, dock shutters and charging bays, generator/ATS, exhaust and ventilation, chilled water, cooling towers and compressed air |
+| **CCTV** | IP cameras at docks, aisles, gates and perimeter, mounting at height, PoE switching, NVR and monitoring, servicing |
+| **Structured cabling** | Cat6/Cat6A, fibre backbone, access-point drops for scanners, racks and patching, labelling and tested links |
 
-**Construction** covers MEPFS works — mechanical, electrical, plumbing and fire
-protection — plus complete kitchen systems, structured cabling, CCTV and civil
-works, with structured cabling and fire protection highlighted as the headline
-installations. Sanitary works, water treatment and HVAC are deliberately not
-offered and should not be reintroduced in copy.
-
-**Engineering Services** covers short-duration work: reactive repairs and
-emergency call-outs, planned preventive maintenance, and annual service
-contracts.
+Repairs, planned maintenance and service contracts for all three are offered on
+`services.html#maintenance`. Fire protection, kitchen systems, plumbing and civil
+works are deliberately **not** offered any more and should not be reintroduced in copy.
 
 ## Pages
 
 | File | Purpose |
 |---|---|
-| `index.html` | Homepage — "Construction and Engineering Services", both tracks, MEPFS disciplines, comparison table, process, why Axia |
-| `construction.html` | Long-duration MEPFS projects, full discipline breakdown, 8-stage delivery process, handover deliverables, FAQ |
-| `engineering.html` | Repairs and maintenance, coverage by discipline, call-out process, service contracts, FAQ |
-| `projects.html` | Notable projects grouped by discipline — fire protection, mechanical, structured cabling & CCTV, fit-out/plumbing, civil — with client, site and date |
-| `about.html` | Company description, mission, owner profile and licences, client list, the six-point philosophy, who we work with |
+| `index.html` | Homepage: full-screen hero, the "Inside your warehouse" diagram (pick a system to light it up), recent work, how a job runs, clients, about, contact card |
+| `services.html` | One chapter per service (`#electromechanical`, `#cctv`, `#cabling`), repairs and upkeep (`#maintenance`), FAQ |
+| `projects.html` | Relevant projects only, each with photos and client / site / date / scope; filter buttons by system |
+| `about.html` | Why one contractor, the owner and licences (`#leadership`), values, client list (`#clients`) |
 | `contact.html` | Enquiry form, contact details, what happens next |
+| `construction.html`, `engineering.html` | Redirect stubs to `services.html`, kept so old links still work |
 
 ## Structure
 
 ```
 .
-├── index.html, construction.html, engineering.html, about.html, contact.html
+├── index.html, services.html, projects.html, about.html, contact.html
+├── construction.html, engineering.html   redirects to services.html
 ├── assets/
 │   ├── css/styles.css     all styling, design tokens at the top in :root
-│   ├── js/main.js         nav, scroll reveal, anchor handling, enquiry form
-│   └── img/               logo.png (ἀξία wordmark), favicon.png, apple-touch-icon.png, icon-512.png,
-│       └── projects/      29 project photos extracted from the company profile, named by project
+│   ├── js/main.js         nav, reveal on scroll, warehouse diagram tabs, project filter,
+│   │                      photo viewer, enquiry form
+│   └── img/               logo, icons, hero.jpg, owner portrait
+│       └── projects/      project photos (some fire/kitchen/civil photos are no longer used)
 ├── robots.txt, sitemap.xml
 └── .nojekyll              so GitHub Pages serves the files as-is
 ```
+
+## Design
+
+- **Colour**: bare-concrete grey ground (`--bg`), Axia navy ink and fields, and the
+  logo's amber (`--accent`) kept for buttons and the live diagram only.
+- **Type**: Barlow Condensed for headings, Barlow for text, five sizes set as
+  `--step-*` tokens.
+- **Motion**: amber "Powered · Watched · Wired" marquee band, staggered reveals
+  (`data-reveal`), picture openings on scroll. Everything respects
+  `prefers-reduced-motion` and stays visible without JavaScript.
 
 ## Running it locally
 
@@ -80,52 +85,21 @@ the `data-mailto` attribute on the `<form>` in `contact.html`.
 
 ## Customising
 
-- **Photo banners** — the homepage hero uses `assets/img/hero.jpg`; each inner
-  page's banner photo is set by one `--banner` line per page in the *UI upgrade*
-  block at the end of `styles.css` (`.page-hero--construction` etc.). Swap the
-  file named there to change a banner.
-- **Client bar** — the scrolling "Trusted by" strip under the homepage hero
-  lists each client twice (the second copy is `aria-hidden`) so the loop is
-  seamless; add a new client to both copies. It stops scrolling for visitors
-  who prefer reduced motion.
-- **Projects** — each project on `projects.html` is a `.project` article inside a
-  `.project-group`; a `.project--featured` one spans the row. Photos live in
-  `assets/img/projects/` at up to 1200px wide and load lazily. To add a project,
-  drop the photo there and copy one of the existing articles. Every project
-  photo opens in a full-screen viewer when clicked (arrow keys move between
-  photos, Esc closes); that needs no extra markup.
-- **Kitchen systems** — the complete kitchen requirements service lives at
-  `construction.html#kitchen` (four service cards plus a photo gallery) and as
-  the Kitchen Systems group on `projects.html#kitchen`; the same five
-  `assets/img/projects/kitchen-*.jpg` photos feed both, and `kitchen-complete.jpg`
-  is also the background of the homepage kitchen panel.
-- **Services beyond MEPFS** — civil & building works, CCTV, and BFP/DOLE/PEZA
-  permitting are described on `construction.html` (`#civil`, `#cctv`, `#permits`)
-  along with the brands installed (`#brands`).
-- **Owner and clients** — the owner section (`#leadership`) and client list
-  (`#clients`) live on `about.html`; the homepage repeats the client names as a
-  compact strip. Both lists are plain HTML `<li>` items, so adding a client is
-  one line in each place. The portrait is `assets/img/cris-john-will-lim.jpg`.
-- **Logo** — `assets/img/logo.png` is the ἀξία wordmark with its background
-  removed, exported at 604×220 (2× the largest size it is shown at). It appears
-  in the header and footer of every page via the `.brand` block; the browser-tab
-  and home-screen icons in the same folder are cut from its first glyph on a
-  navy tile. To replace the logo, overwrite `logo.png` with a transparent PNG or
-  SVG of similar proportions and update the `width`/`height` attributes on the
-  `<img>` tags.
-- **Colours, fonts, spacing** — design tokens are defined in `:root` at the top
-  of `assets/css/styles.css`. `--amber-ink` is a deliberately darkened amber
-  used for text on light backgrounds; it meets WCAG AA at 5.09:1, whereas the
-  brighter `--amber-500` does not and is reserved for dark backgrounds and
-  decorative elements.
-- **Contact details** — email, phone, hours and the call-out note appear in the
-  footer of all six pages and in `contact.html`. The phone number is written
-  locally as `0926-668-8988` but linked as `tel:+639266688988`, so it dials
-  correctly from abroad as well as at home; change both if the number changes.
-  The street address and second number come from the company profile and
-  appear in the same two places.
-- **Navigation** — the header and footer are duplicated per page (there is no
-  templating). Editing one means editing all six.
+- **Header and footer** are duplicated in every page (no templating). Editing one
+  means editing all five content pages.
+- **Hero photo** is `assets/img/hero.jpg`.
+- **Warehouse diagram** is an inline SVG in `index.html` (`#shed`). Each system's
+  parts sit in a `<g class="sys sys--em|cctv|cab">`; shapes with class `hl`
+  (fill) or `hs` (stroke) turn amber when that system's tab is selected, and
+  `lbl` text labels appear.
+- **Projects**: each project on `projects.html` is an `<article class="project">`
+  with `data-sys` listing its systems (`em`, `cctv`, `cab`) for the filter. Each
+  photo `<figure>` carries `style="--r: width/height"` (as a decimal) so the row
+  lines up at one height. Clicking a photo opens the full-screen viewer.
+- **Clients** are plain `<li>` items on `index.html` and `about.html`.
+- **Contact details** appear in the footer of every page, the home contact card
+  and `contact.html`. The phone is written `0926-668-8988` and linked as
+  `tel:+639266688988`.
 
 ## Accessibility and browser notes
 
@@ -134,8 +108,8 @@ the `data-mailto` attribute on the `<form>` in `contact.html`.
 - All text/background pairings meet WCAG AA contrast.
 - Respects `prefers-reduced-motion`: reveal animations and smooth scrolling are
   disabled for visitors who ask for that.
-- Responsive from 320px up; the comparison table scrolls horizontally on narrow
-  screens with shadow affordances and a swipe hint.
+- Responsive from 320px up.
+- The diagram tabs follow the ARIA tabs pattern (arrow keys, Home, End).
 - Google Fonts are loaded from a CDN with a system fallback stack, so the site
   still renders correctly if the fonts are blocked or unavailable.
 - Includes a print stylesheet.

@@ -2,125 +2,100 @@
 (function () {
   "use strict";
 
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   /* ---------------- Mobile navigation ---------------- */
   var toggle = document.querySelector(".nav-toggle");
   var nav = document.getElementById("primary-nav");
 
   if (toggle && nav) {
-    toggle.addEventListener("click", function () {
-      var open = nav.classList.toggle("is-open");
+    var setOpen = function (open) {
+      nav.classList.toggle("is-open", open);
       toggle.setAttribute("aria-expanded", String(open));
-    });
-
-    nav.addEventListener("click", function (e) {
-      if (e.target.closest("a")) {
-        nav.classList.remove("is-open");
-        toggle.setAttribute("aria-expanded", "false");
-      }
-    });
-
+      toggle.textContent = open ? "Close" : "Menu";
+    };
+    toggle.addEventListener("click", function () { setOpen(!nav.classList.contains("is-open")); });
+    nav.addEventListener("click", function (e) { if (e.target.closest("a")) { setOpen(false); } });
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && nav.classList.contains("is-open")) {
-        nav.classList.remove("is-open");
-        toggle.setAttribute("aria-expanded", "false");
-        toggle.focus();
-      }
+      if (e.key === "Escape" && nav.classList.contains("is-open")) { setOpen(false); toggle.focus(); }
     });
   }
 
-  /* ---------------- Mark the current page in the nav ---------------- */
-  var here = window.location.pathname.split("/").pop() || "index.html";
-  Array.prototype.forEach.call(document.querySelectorAll(".nav a[href]"), function (link) {
-    var target = link.getAttribute("href").split("#")[0].split("/").pop();
-    if (target && target === here) {
-      link.classList.add("is-active");
-      link.setAttribute("aria-current", "page");
-    }
-  });
-
-  /* ---------------- Scroll reveal ---------------- */
-  var revealables = document.querySelectorAll(".reveal");
-  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (!revealables.length) {
-    /* nothing to do */
-  } else if (reduced || !("IntersectionObserver" in window)) {
-    Array.prototype.forEach.call(revealables, function (el) { el.classList.add("is-visible"); });
-  } else {
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
-        }
+  /* ---------------- Reveal on entry ----------------
+     Hidden states only exist under html.js and prefers-reduced-motion:
+     no-preference, so content is never lost without script. */
+  var revealables = document.querySelectorAll("[data-reveal]");
+  if (revealables.length) {
+    if (reduced || !("IntersectionObserver" in window)) {
+      Array.prototype.forEach.call(revealables, function (el) { el.classList.add("is-in"); });
+    } else {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { entry.target.classList.add("is-in"); io.unobserve(entry.target); }
+        });
+      }, { rootMargin: "0px 0px -10% 0px", threshold: 0.1 });
+      Array.prototype.forEach.call(revealables, function (el) { io.observe(el); });
+      window.addEventListener("load", function () {
+        setTimeout(function () {
+          Array.prototype.forEach.call(revealables, function (el) {
+            var r = el.getBoundingClientRect();
+            if (r.top < window.innerHeight && r.bottom > 0) { el.classList.add("is-in"); }
+          });
+        }, 2500);
       });
-    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
-
-    Array.prototype.forEach.call(revealables, function (el) { observer.observe(el); });
+    }
   }
 
-  /* ---------------- Anchor landings ----------------
-     A .reveal element starts shifted down by a transform. When the page is
-     opened on a #fragment the browser computes the scroll position while that
-     shift is still applied, so the target settles under the sticky header once
-     the animation clears it. Reveal the target and its ancestors first, then
-     scroll again against the final layout. */
-  function settleHash() {
-    var hash = window.location.hash;
-    if (!hash || hash.length < 2) { return; }
+  /* ---------------- Warehouse diagram: pick a system ----------------
+     Without script every panel shows and the drawing stays neutral. */
+  var shed = document.querySelector(".shed");
+  if (shed) {
+    var tablist = shed.querySelector("[role=tablist]");
+    var tabs = Array.prototype.slice.call(shed.querySelectorAll("[role=tab]"));
+    var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute("aria-controls")); });
+    var select = function (i, focus) {
+      tabs.forEach(function (t, j) {
+        var on = i === j;
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+        panels[j].hidden = !on;
+      });
+      shed.setAttribute("data-active", tabs[i].getAttribute("data-sys"));
+      if (focus) { tabs[i].focus(); }
+    };
+    tablist.hidden = false;
+    tabs.forEach(function (t, i) {
+      t.addEventListener("click", function () { select(i, false); });
+      t.addEventListener("keydown", function (e) {
+        var k = e.key, n = tabs.length;
+        if (k === "ArrowRight" || k === "ArrowDown") { e.preventDefault(); select((i + 1) % n, true); }
+        else if (k === "ArrowLeft" || k === "ArrowUp") { e.preventDefault(); select((i - 1 + n) % n, true); }
+        else if (k === "Home") { e.preventDefault(); select(0, true); }
+        else if (k === "End") { e.preventDefault(); select(n - 1, true); }
+      });
+    });
+    select(0, false);
+  }
 
-    var target;
-    try { target = document.querySelector(hash); } catch (err) { return; }
-    if (!target) { return; }
-
-    var node = target;
-    while (node && node !== document.body) {
-      if (node.classList && node.classList.contains("reveal")) {
-        node.classList.add("is-visible");
-      }
-      node = node.parentElement;
-    }
-
-    requestAnimationFrame(function () {
-      target.scrollIntoView();
+  /* ---------------- Projects: filter by system ---------------- */
+  var filter = document.querySelector(".filter");
+  if (filter) {
+    var buttons = Array.prototype.slice.call(filter.querySelectorAll("[data-filter]"));
+    var projects = Array.prototype.slice.call(document.querySelectorAll(".project[data-sys]"));
+    filter.hidden = false;
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        var f = b.getAttribute("data-filter");
+        buttons.forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); });
+        projects.forEach(function (p) {
+          p.hidden = f !== "all" && p.getAttribute("data-sys").split(" ").indexOf(f) === -1;
+        });
+      });
     });
   }
 
-  settleHash();
-  window.addEventListener("hashchange", settleHash);
-
-  /* ---------------- Header shadow once the page scrolls ---------------- */
-  var header = document.querySelector(".site-header");
-  if (header) {
-    var onScroll = function () { header.classList.toggle("is-scrolled", window.scrollY > 40); };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-  }
-
-  /* ---------------- Stat counters ----------------
-     The final figure is in the HTML, so the page reads correctly without
-     JavaScript or with reduced motion; the count-up is decoration only. */
-  var counters = document.querySelectorAll("[data-count]");
-  if (counters.length && !reduced && "IntersectionObserver" in window) {
-    var countObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) { return; }
-        var el = entry.target, target = parseInt(el.getAttribute("data-count"), 10), start = null;
-        countObserver.unobserve(el);
-        var step = function (t) {
-          if (start === null) { start = t; }
-          var p = Math.min((t - start) / 1100, 1);
-          el.textContent = String(Math.round(target * (1 - Math.pow(1 - p, 3))));
-          if (p < 1) { requestAnimationFrame(step); }
-        };
-        requestAnimationFrame(step);
-      });
-    }, { threshold: 0.6 });
-    Array.prototype.forEach.call(counters, function (el) { countObserver.observe(el); });
-  }
-
-  /* ---------------- Project photo viewer ---------------- */
-  var shots = Array.prototype.slice.call(document.querySelectorAll(".project__media img"));
+  /* ---------------- Photo viewer for project strips ---------------- */
+  var shots = Array.prototype.slice.call(document.querySelectorAll("[data-zoom] img"));
   if (shots.length) {
     var box = document.createElement("div");
     box.className = "lightbox";
@@ -129,26 +104,27 @@
     box.setAttribute("aria-modal", "true");
     box.setAttribute("aria-label", "Project photo viewer");
     box.innerHTML =
-      '<button type="button" class="lightbox__close" aria-label="Close photo viewer">&times;</button>' +
       '<button type="button" class="lightbox__prev" aria-label="Previous photo">&#8249;</button>' +
       '<figure><img alt=""><figcaption><span class="lightbox__text"></span>' +
       '<span class="lightbox__count"></span></figcaption></figure>' +
-      '<button type="button" class="lightbox__next" aria-label="Next photo">&#8250;</button>';
+      '<button type="button" class="lightbox__next" aria-label="Next photo">&#8250;</button>' +
+      '<button type="button" class="lightbox__close" aria-label="Close photo viewer">&times;</button>';
     document.body.appendChild(box);
 
     var big = box.querySelector("img"), text = box.querySelector(".lightbox__text"),
         count = box.querySelector(".lightbox__count"), closeBtn = box.querySelector(".lightbox__close"),
-        buttons = box.querySelectorAll("button"), index = 0, lastFocus = null;
+        boxButtons = box.querySelectorAll("button"), index = 0, lastFocus = null;
 
+    var visible = function () { return shots.filter(function (s) { return !s.closest("[hidden]"); }); };
     var show = function () {
-      var img = shots[index], project = img.closest(".project"), title = project && project.querySelector("h3");
+      var list = visible(), img = list[index], cap = img.closest("figure").querySelector("figcaption");
       big.src = img.currentSrc || img.src;
       big.alt = img.alt;
-      text.textContent = (title ? title.textContent.trim() + " — " : "") + img.alt;
-      count.textContent = (index + 1) + " / " + shots.length;
+      text.textContent = cap ? cap.textContent : img.alt;
+      count.textContent = (index + 1) + " / " + list.length;
     };
-    var open = function (i) {
-      index = i; show();
+    var open = function (img) {
+      index = Math.max(0, visible().indexOf(img)); show();
       lastFocus = document.activeElement;
       box.hidden = false;
       document.body.style.overflow = "hidden";
@@ -159,15 +135,15 @@
       document.body.style.overflow = "";
       if (lastFocus) { lastFocus.focus(); }
     };
-    var move = function (d) { index = (index + d + shots.length) % shots.length; show(); };
+    var move = function (d) { var n = visible().length; index = (index + d + n) % n; show(); };
 
-    shots.forEach(function (img, i) {
+    shots.forEach(function (img) {
       img.tabIndex = 0;
       img.setAttribute("role", "button");
       img.setAttribute("aria-label", "Enlarge photo: " + img.alt);
-      img.addEventListener("click", function () { open(i); });
+      img.addEventListener("click", function () { open(img); });
       img.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(i); }
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(img); }
       });
     });
     closeBtn.addEventListener("click", close);
@@ -181,7 +157,7 @@
       else if (e.key === "ArrowRight") { move(1); }
       else if (e.key === "Tab") {
         // keep focus on the viewer's own buttons while it is open
-        var first = buttons[0], last = buttons[buttons.length - 1];
+        var first = boxButtons[0], last = boxButtons[boxButtons.length - 1];
         if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
         else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
       }
@@ -195,9 +171,9 @@
 
   /* ---------------- Enquiry form ----------------
      The site is static, so there is no server to post to. The form hands the
-     completed enquiry to the visitor's own mail client via a mailto: link and
-     tells them what happened. Swap this out for a real endpoint (Formspree,
-     Netlify Forms, a serverless function) when hosting allows. */
+     completed enquiry to the visitor's own mail client via a mailto: link.
+     Swap this for a real endpoint (Formspree, Netlify Forms, a serverless
+     function) when hosting allows. */
   var form = document.getElementById("enquiry-form");
   if (form) {
     var status = document.getElementById("form-status");
@@ -216,25 +192,22 @@
         "Company: " + (get("company") || "—"),
         "Email: " + get("email"),
         "Phone: " + (get("phone") || "—"),
-        "Site / location: " + (get("location") || "—"),
-        "Preferred timeline: " + (get("timeline") || "—"),
+        "Site location: " + (get("location") || "—"),
+        "Floor area: " + (get("size") || "—"),
+        "Timeline: " + (get("timeline") || "—"),
         "",
         "Details:",
         get("message")
       ];
 
-      var subject = "Website enquiry — " + serviceLabel;
-      var mailto = "mailto:" + form.dataset.mailto +
-        "?subject=" + encodeURIComponent(subject) +
+      window.location.href = "mailto:" + form.dataset.mailto +
+        "?subject=" + encodeURIComponent("Website enquiry — " + serviceLabel) +
         "&body=" + encodeURIComponent(lines.join("\n"));
-
-      window.location.href = mailto;
 
       if (status) {
         status.textContent =
-          "Opening your email app with the enquiry pre-filled — press send to reach us. " +
+          "Opening your email app with the enquiry filled in. Press send there to reach us. " +
           "If nothing opened, email " + form.dataset.mailto + " directly.";
-        status.classList.add("is-visible");
       }
     });
   }

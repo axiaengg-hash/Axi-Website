@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: /sitemap.xml
+Sitemap: https://axiaengg-hash.github.io/Axi-Website/sitemap.xml

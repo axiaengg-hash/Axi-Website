@@ -28,6 +28,10 @@ not be reintroduced in copy.
 | `projects.html` | Projects grouped by service, each with photos and client / site / date / scope; filter buttons by service |
 | `about.html` | Why one contractor, the owner and licences (`#leadership`), values, client list (`#clients`) |
 | `contact.html` | Enquiry form, contact details, what happens next |
+| `batangas.html` | Batangas service-area hub: towns, industrial parks, links to the three Batangas service pages |
+| `fire-protection-batangas.html` | Landing page for "fire protection / FDAS contractor Batangas" searches |
+| `structured-cabling-batangas.html` | Landing page for "structured cabling / CCTV Batangas" searches |
+| `industrial-piping-batangas.html` | Landing page for "industrial piping Batangas" searches (plant piping only, not residential plumbing) |
 | `construction.html`, `engineering.html` | Redirect stubs to `services.html`, kept so old links still work |
 
 ## Structure
@@ -101,6 +105,21 @@ the `data-mailto` attribute on the `<form>` in `contact.html`.
 - **Contact details** appear in the footer of every page, the home contact card
   and `contact.html`. The phone is written `0926-668-8988` and linked as
   `tel:+639266688988`.
+
+## Search (SEO)
+
+- **Batangas landing pages** (above) target local searches. Each has a keyword
+  title and description, a canonical URL, and JSON-LD for `Service`, `FAQPage`
+  and `BreadcrumbList`. The FAQ text in the JSON-LD must match the visible FAQ.
+- **Business schema**: `index.html` carries a `GeneralContractor` JSON-LD block
+  (`#business`) with name, address, phone, hours and services. Keep it identical
+  to the Google Business Profile: same name, address and phone everywhere.
+- **Footer**: every content page has a "Serving Batangas" line linking the four
+  Batangas pages, so each is reachable from anywhere on the site.
+- **Absolute URLs**: canonicals, `og:url`, `sitemap.xml` and `robots.txt` use
+  `https://axiaengg-hash.github.io/Axi-Website/`. When a custom domain is set up,
+  replace that string in every file, and add a `CNAME` file holding the domain.
+- After any change to pages, resubmit `sitemap.xml` in Google Search Console.
 
 ## Accessibility and browser notes
 
